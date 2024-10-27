@@ -90,7 +90,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
     }
   
-    // Check if page is ready every 500ms for up to 30 seconds
+    // Check if page is ready every 500ms
     let attempts = 0;
     const maxAttempts = 900; // 450 seconds total
   
