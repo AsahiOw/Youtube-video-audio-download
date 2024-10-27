@@ -1,26 +1,26 @@
 .thumbnail-url-button {
-    position: absolute !important;
-    top: 4px !important;
-    right: 4px !important;
-    z-index: 999999 !important;
-    background: rgba(255, 0, 0, 0.9) !important;
-    color: white !important;
-    border: none !important;
-    padding: 4px 8px !important;
-    border-radius: 4px !important;
-    cursor: pointer !important;
-    font-size: 12px !important;
-    font-weight: bold !important;
-    font-family: Roboto, Arial, sans-serif !important;
-    opacity: 0;
-    transition: opacity 0.2s !important;
-  }
-  
-  #content:hover .thumbnail-url-button,
-  .thumbnail-url-button:hover {
-    opacity: 1 !important;
-  }
-  
-  .thumbnail-url-button:hover {
-    background: rgb(255, 0, 0) !important;
-  }
+  position: absolute !important;
+  top: 4px !important;
+  right: 4px !important;
+  z-index: 999999 !important;
+  background: rgba(255, 0, 0, 0.9) !important;
+  color: white !important;
+  border: none !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+  font-family: Roboto, Arial, sans-serif !important;
+  opacity: 0;
+  transition: opacity 0.2s !important;
+}
+
+#content:hover .thumbnail-url-button,
+.thumbnail-url-button:hover {
+  opacity: 1 !important;
+}
+
+.thumbnail-url-button:hover {
+  background: rgb(255, 0, 0) !important;
+}
