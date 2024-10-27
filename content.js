@@ -1,69 +1,63 @@
-function addButtonToVideo() {
-    // Remove any existing buttons first
-    const existingButtons = document.querySelectorAll('.yt-url-button');
-    existingButtons.forEach(button => button.remove());
+function addButtonToThumbnail(thumbnailElement) {
+    // Skip if button already exists
+    if (thumbnailElement.querySelector('.thumbnail-url-button')) {
+        return;
+    }
+
+    // Find the link containing the video URL
+    const linkElement = thumbnailElement.querySelector('a#thumbnail');
+    if (!linkElement) return;
+
+    // Get video ID from the href
+    const videoId = linkElement.href.split('v=')[1]?.split('&')[0];
+    if (!videoId) return;
 
     // Create button
     const button = document.createElement('button');
-    button.className = 'yt-url-button';
-    button.textContent = 'Copy Video URL';
-    button.style.display = 'block';
+    button.className = 'thumbnail-url-button';
+    button.textContent = 'URL';
 
     // Add click handler
-    button.addEventListener('click', () => {
-        const url = window.location.href;
-        // Copy to clipboard instead of alert
-        navigator.clipboard.writeText(url).then(() => {
-            // Change button text temporarily to show success
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const videoUrl = `https://youtube.com/watch?v=${videoId}`;
+        
+        // Copy to clipboard and show feedback
+        navigator.clipboard.writeText(videoUrl).then(() => {
             const originalText = button.textContent;
-            button.textContent = 'URL Copied!';
+            button.textContent = 'Copied!';
             setTimeout(() => {
                 button.textContent = originalText;
-            }, 2000);
+            }, 1000);
         }).catch(() => {
-            alert(`Video URL: ${url}`);
+            alert(`Video URL: ${videoUrl}`);
         });
     });
 
-    // Add button directly to body
-    document.body.appendChild(button);
-    console.log('Button added to body');
+    // Make sure thumbnail container is positioned relatively
+    thumbnailElement.style.position = 'relative';
+    
+    // Add button to thumbnail
+    thumbnailElement.appendChild(button);
 }
 
-// Function to check if we're on a video page
-function isVideoPage() {
-    return window.location.pathname === '/watch' ||
-           document.querySelector('#movie_player') !== null;
+function addButtonsToAllThumbnails() {
+    // Find all video thumbnails
+    const thumbnails = document.querySelectorAll('ytd-thumbnail:not([hidden])');
+    thumbnails.forEach(addButtonToThumbnail);
 }
 
-// Initial load with a longer delay
-if (isVideoPage()) {
-    console.log('Video page detected, adding button...');
-    setTimeout(addButtonToVideo, 2000);
-}
+// Initial load
+setTimeout(addButtonsToAllThumbnails, 1500);
 
-// Watch for URL changes
-let lastUrl = location.href;
-new MutationObserver(() => {
-    const url = location.href;
-    if (url !== lastUrl) {
-        lastUrl = url;
-        console.log('URL changed, checking for video...');
-        if (isVideoPage()) {
-            setTimeout(addButtonToVideo, 2000);
-        } else {
-            // Remove button if not on a video page
-            const existingButtons = document.querySelectorAll('.yt-url-button');
-            existingButtons.forEach(button => button.remove());
-        }
-    }
-}).observe(document, { subtree: true, childList: true });
-
-// Watch for dynamic changes
+// Watch for dynamic changes (like scrolling, navigation)
 const observer = new MutationObserver((mutations) => {
-    if (isVideoPage() && !document.querySelector('.yt-url-button')) {
-        console.log('Page updated, checking if button needs to be added...');
-        addButtonToVideo();
+    for (const mutation of mutations) {
+        if (mutation.addedNodes.length) {
+            addButtonsToAllThumbnails();
+        }
     }
 });
 
@@ -71,3 +65,6 @@ observer.observe(document.body, {
     childList: true,
     subtree: true
 });
+
+// Also check periodically for new thumbnails (for safety)
+setInterval(addButtonsToAllThumbnails, 2000);
