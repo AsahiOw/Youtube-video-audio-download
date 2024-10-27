@@ -1,4 +1,3 @@
-// content.js
 function openInEzmp3(videoUrl) {
     try {
       chrome.runtime.sendMessage({
@@ -122,5 +121,3 @@ function openInEzmp3(videoUrl) {
       console.log('Error in cleanup:', error);
     }
   });
-  
-  // background.js remains the same as the previous version

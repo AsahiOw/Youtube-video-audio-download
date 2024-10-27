@@ -1,18 +1,33 @@
-// background.js
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'openEzmp3') {
-      chrome.tabs.create({ url: 'https://ezmp3.cc/', active: false }, (tab) => {
-        // Wait for the page to be fully loaded before injecting
-        chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          function: waitForPageLoad,
-          args: [request.videoUrl]
+      chrome.tabs.create({ 
+        url: 'https://ezmp3.cc/', 
+        active: false
+      }, (tab) => {
+        const tabId = tab.id;
+        
+        // Setup a listener for messages from the injected script
+        chrome.runtime.onMessage.addListener(function closeTabListener(message) {
+          if (message.action === 'closeTab' && message.tabId === tabId) {
+            setTimeout(() => {
+              chrome.tabs.remove(tabId);
+              chrome.runtime.onMessage.removeListener(closeTabListener);
+            }, 3000);
+          }
         });
+  
+        setTimeout(() => {
+          chrome.scripting.executeScript({
+            target: { tabId: tabId },
+            function: injectSearch,
+            args: [request.videoUrl, tabId]
+          });
+        }, 2000);
       });
     }
   });
   
-  function waitForPageLoad(videoUrl) {
+  function injectSearch(videoUrl, tabId) {
     // Function to check if the search input is ready
     function isPageReady() {
       const searchInput = document.querySelector('.MuiOutlinedInput-input');
@@ -32,8 +47,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           if (downloadButton && downloadButton.textContent.includes('Download MP3')) {
             console.log('Download button found, clicking once...');
             downloadButton.click();
-            // Disconnect the observer after clicking once
             observer.disconnect();
+            
+            // Send message to background script to close the tab
+            chrome.runtime.sendMessage({
+              action: 'closeTab',
+              tabId: tabId
+            });
           }
         });
   
@@ -60,6 +80,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             convertButton.click();
           } else {
             console.log('Convert button not found');
+            // If convert button is not found, send message to close tab
+            chrome.runtime.sendMessage({
+              action: 'closeTab',
+              tabId: tabId
+            });
           }
         }, 500);
       }
@@ -67,7 +92,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   
     // Check if page is ready every 500ms for up to 30 seconds
     let attempts = 0;
-    const maxAttempts = 60; // 30 seconds total
+    const maxAttempts = 900; // 450 seconds total
   
     const checkInterval = setInterval(() => {
       attempts++;
@@ -79,8 +104,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       } else if (attempts >= maxAttempts) {
         clearInterval(checkInterval);
         console.log('Timeout waiting for page to load');
+        // Send message to close tab if page load times out
+        chrome.runtime.sendMessage({
+          action: 'closeTab',
+          tabId: tabId
+        });
       }
     }, 500);
   }
-  
-  // content.js remains the same
