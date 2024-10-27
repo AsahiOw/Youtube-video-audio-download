@@ -3,13 +3,22 @@
   "name": "YouTube Video Link Button",
   "version": "1.0",
   "description": "Adds a button to show video URLs on YouTube videos",
-  "permissions": [],
-  "host_permissions": ["https://*.youtube.com/*"],
+  "permissions": [
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://*.youtube.com/*",
+    "https://ezmp3.cc/*"
+  ],
   "icons": {
     "128": "Icons/icon.png"
   },
   "action": {
     "default_icon": "Icons/icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
