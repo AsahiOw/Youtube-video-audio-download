@@ -1,7 +1,7 @@
 // background.js
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'openEzmp3') {
-      chrome.tabs.create({ url: 'https://ezmp3.cc/', active: true }, (tab) => {
+      chrome.tabs.create({ url: 'https://ezmp3.cc/', active: false }, (tab) => {
         // Wait for the page to be fully loaded before injecting
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
