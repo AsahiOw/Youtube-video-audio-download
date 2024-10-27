@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Video Link Button",
+  "version": "1.0",
+  "description": "Adds a button to show video URLs on YouTube videos",
+  "permissions": [],
+  "host_permissions": ["https://*.youtube.com/*"],
+  "icons": {
+    "128": "Icons/icon.png"
+  },
+  "action": {
+    "default_icon": "Icons/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.youtube.com/*"],
+      "js": ["content.js"],
+      "css": ["style.css"]
+    }
+  ]
+}
