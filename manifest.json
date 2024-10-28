@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "YouTube Video Link Button",
-  "version": "1.0",
-  "description": "Adds a button to show video URLs on YouTube videos",
+  "name": "Youtube Audio Download",
+  "version": "1.1",
+  "description": "Add a download audio button to Youtube",
   "permissions": [
     "tabs",
     "scripting"
