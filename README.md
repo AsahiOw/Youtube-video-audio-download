@@ -26,7 +26,7 @@ This is a personal project inspired by a friend who what to download music from 
 ## How to use
 
 - Go to Youtube.com.
-- There will be a mp3 button on each video thumbnail.
+- There will be a mp3 button on each video thumbnail or next to like button.
 - Click on it, and the extension will open a browser tab https://ezmp3.cc/.
 - The process on ezmp3.cc will be fully automated and when the download start, that browser tab will automatically close.
 
@@ -40,6 +40,12 @@ This is a personal project inspired by a friend who what to download music from 
 - Download Link: 
     - 1.0: [Download](https://drive.google.com/file/d/1ThX7qY1tl3HhQmTmSgnWyCmR6ZDCK57H/view?usp=drive_link)
     - 1.1: [Download](https://drive.google.com/file/d/1CQ5kxKszGDKCXpfVVec7m9cDNt-JtnaR/view?usp=drive_link)
+
+## Update Information
+
+### 1.1
+- Update manifest.json
+- Add Button to the youtube/watch
 
 ## Contact
 
