@@ -39,6 +39,8 @@ A personal project inspired by a friend who wants to download music from YouTube
 ## Known Issues
 - The Button in the watch view does mess up with the YouTube overflow components, this can be re-updated when the user interacts with the size of the website like resizing the browser.
 
+## Current Resolve
+- Crt + Shift + i + i (or resize the browser)
 ## Acknowledgments
 Thanks to ezmp3.cc and its creator fiverrpeao on Reddit for this amazing ad-free website. Please support them on [Ko-fi](https://ko-fi.com/ezmp3)
 
