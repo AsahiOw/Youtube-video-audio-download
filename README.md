@@ -23,7 +23,7 @@ A personal project inspired by a friend who wants to download music from YouTube
 1. Go to Youtube.com
 2. Look for the MP3 button on each video thumbnail or next to the like button
 3. Click it, and the extension will open a browser tab to https://ezmp3.cc/
-4. The process on ezmp3.cc will be fully automated, and the browser tab will automatically close when download starts
+4. The process on ezmp3.cc will be fully automated, and the browser tab will automatically close when the download starts
 
 ## Link
 - **GitHub**: [Link](https://github.com/AsahiOw/Youtube-video-audio-download)
@@ -34,7 +34,10 @@ A personal project inspired by a friend who wants to download music from YouTube
 ## Update History
 ### Version 1.1
 - Updated manifest.json
-- Added Button to youtube/watch
+- Added Button to `youtube.com/watch`
+
+## Known Issues
+- The Button in the watch view does mess up with the YouTube overflow components, this can be re-updated when the user interact with the size of the website like resizing the browser.
 
 ## Acknowledgments
 Thanks to ezmp3.cc and its creator fiverrpeao on Reddit for this amazing ad-free website. Please support them on [Ko-fi](https://ko-fi.com/ezmp3)
