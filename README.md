@@ -36,8 +36,10 @@ This is a personal project inspired by a friend who what to download music from 
 
 ## Link
 
-- Download Link: https://drive.google.com/file/d/1ThX7qY1tl3HhQmTmSgnWyCmR6ZDCK57H/view?usp=drive_link
 - GitHub: https://github.com/AsahiOw/Youtube-video-audio-download
+- Download Link: 
+    - 1.0: https://drive.google.com/file/d/1ThX7qY1tl3HhQmTmSgnWyCmR6ZDCK57H/view?usp=drive_link
+    - 1.1: https://drive.google.com/file/d/1CQ5kxKszGDKCXpfVVec7m9cDNt-JtnaR/view?usp=drive_link
 
 ## Contact
 
