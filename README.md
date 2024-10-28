@@ -30,11 +30,16 @@ A personal project inspired by a friend who wants to download music from YouTube
 - **Downloads**:
   - Version 1.0: [Download](https://drive.google.com/file/d/1ThX7qY1tl3HhQmTmSgnWyCmR6ZDCK57H)
   - Version 1.1: [Download](https://drive.google.com/file/d/1CQ5kxKszGDKCXpfVVec7m9cDNt-JtnaR)
+  - Version 1.1.1: [Download](https://drive.google.com/file/d/1K6z2vm-6FCTEJzReV87dFCem6KwDNZUx/view?usp=drive_link)
 
 ## Update History
 ### Version 1.1
 - Updated manifest.json
 - Added Button to `youtube.com/watch`
+
+### Version 1.1.1
+- Move the button location on the thumbnail to the left side, to prevent conflict between elements on the thumbnail.
+- The button only shows up when the cursor hovers over that button location.
 
 ## Known Issues
 - The Button in the watch view messes up with some videos' YouTube overflow components.
