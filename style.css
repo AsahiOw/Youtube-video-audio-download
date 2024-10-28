@@ -1,7 +1,7 @@
 .thumbnail-url-button {
   position: absolute !important;
   top: 4px !important;
-  right: 4px !important;
+  left: 4px !important;
   z-index: 999999 !important;
   background: rgba(255, 0, 0, 0.9) !important;
   color: white !important;
@@ -16,7 +16,8 @@
   transition: opacity 0.2s !important;
 }
 
-#content:hover .thumbnail-url-button,
+/* Change the hover selector to target the thumbnail container */
+ytd-thumbnail:hover .thumbnail-url-button,
 .thumbnail-url-button:hover {
   opacity: 1 !important;
 }
