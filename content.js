@@ -15,16 +15,13 @@ function openInEzmp3(videoUrl) {
 }
 
 function findLikeButton() {
-  // Try to find the like button component first
   const targetSection = document.querySelector('#above-the-fold #top-level-buttons-computed');
   if (!targetSection) {
     console.log('Target section not found');
     return null;
   }
-  console.log('Found target section');
-  return targetSection.firstElementChild; // Return the first button container
+  return targetSection.firstElementChild;
 }
-
 
 function createMP3ButtonForWatchPage() {
   const buttonContainer = document.createElement('div');
@@ -38,7 +35,6 @@ function createMP3ButtonForWatchPage() {
   const innerButton = document.createElement('button');
   innerButton.className = 'yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m mp3-download-btn';
   
-  // Add the styles to document head
   const style = document.createElement('style');
   style.textContent = `
     .mp3-download-btn {
@@ -97,14 +93,11 @@ function addButtonToWatchPage() {
     return;
   }
 
-  // Find the like button container
   const targetSection = findLikeButton();
   if (!targetSection) {
-    console.log('Target section not found');
     return;
   }
 
-  // Create MP3 button
   const mp3Button = createMP3ButtonForWatchPage();
   
   mp3Button.addEventListener('click', (e) => {
@@ -114,21 +107,28 @@ function addButtonToWatchPage() {
     openInEzmp3(videoUrl);
   });
 
-  // Insert the button before the first button in the section
   targetSection.parentElement.insertBefore(mp3Button, targetSection);
-  console.log('MP3 button added successfully');
+}
+
+function getVideoUrl(container) {
+  // Try to find the video link in order of reliability
+  const videoLink = container.querySelector('a#video-title-link') || 
+                   container.querySelector('a#video-title') ||
+                   container.querySelector('a#thumbnail');
+                   
+  if (!videoLink || !videoLink.href) return null;
+
+  // Extract and validate video ID
+  const videoId = videoLink.href.match(/(?:\/watch\?v=|\/shorts\/)([^&?/]+)/)?.[1];
+  return videoId ? `https://www.youtube.com/watch?v=${videoId}` : null;
 }
 
 function addButtonToThumbnail(thumbnailElement) {
-  if (thumbnailElement.querySelector('.thumbnail-url-button')) {
-    return;
+  // Remove existing button if present
+  const existingButton = thumbnailElement.querySelector('.thumbnail-url-button');
+  if (existingButton) {
+    existingButton.remove();
   }
-
-  const linkElement = thumbnailElement.querySelector('a#thumbnail');
-  if (!linkElement) return;
-
-  const videoId = linkElement.href?.split('v=')[1]?.split('&')[0];
-  if (!videoId) return;
 
   const button = document.createElement('button');
   button.className = 'thumbnail-url-button';
@@ -138,8 +138,16 @@ function addButtonToThumbnail(thumbnailElement) {
     e.preventDefault();
     e.stopPropagation();
     
-    const videoUrl = `https://youtube.com/watch?v=${videoId}`;
-    openInEzmp3(videoUrl);
+    // Find the video container at click time
+    const videoContainer = thumbnailElement.closest('ytd-rich-item-renderer, ytd-compact-video-renderer');
+    if (!videoContainer) return;
+
+    // Get the video URL at click time
+    const videoUrl = getVideoUrl(videoContainer);
+    if (videoUrl) {
+      console.log('Opening MP3 download for:', videoUrl);
+      openInEzmp3(videoUrl);
+    }
   });
 
   thumbnailElement.style.position = 'relative';
@@ -147,7 +155,11 @@ function addButtonToThumbnail(thumbnailElement) {
 }
 
 function addButtonsToAllThumbnails() {
-  const thumbnails = document.querySelectorAll('ytd-thumbnail:not([hidden])');
+  const thumbnails = document.querySelectorAll(`
+    ytd-rich-item-renderer ytd-thumbnail:not([hidden]),
+    ytd-compact-video-renderer ytd-thumbnail:not([hidden]),
+    ytd-grid-video-renderer ytd-thumbnail:not([hidden])
+  `);
   thumbnails.forEach(addButtonToThumbnail);
 }
 
@@ -155,15 +167,10 @@ function checkAndAddButtons() {
   addButtonsToAllThumbnails();
   
   if (window.location.pathname === '/watch') {
-    if (document.querySelector('.watch-view-mp3-button')) {
-      return;
-    }
-
     let attempts = 0;
     const maxAttempts = 20;
     const addButtonInterval = setInterval(() => {
       if (document.querySelector('.watch-view-mp3-button')) {
-        console.log('Button already exists, stopping attempts');
         clearInterval(addButtonInterval);
         return;
       }
@@ -171,18 +178,13 @@ function checkAndAddButtons() {
       const targetSection = document.querySelector('#above-the-fold #top-level-buttons-computed');
       if (targetSection) {
         addButtonToWatchPage();
-        
         if (document.querySelector('.watch-view-mp3-button')) {
-          console.log('Button successfully added!');
           clearInterval(addButtonInterval);
         }
-      } else {
-        console.log('Target section not found yet, trying again...');
       }
       
       attempts++;
       if (attempts >= maxAttempts) {
-        console.log('Max attempts reached, giving up');
         clearInterval(addButtonInterval);
       }
     }, 1000);
@@ -205,26 +207,42 @@ function initializeWithRetry(retries = 3) {
   }
 }
 
+// Initialize
 initializeWithRetry();
 
-let lastUrl = location.href;
-new MutationObserver(() => {
-  const url = location.href;
-  if (url !== lastUrl) {
-    lastUrl = url;
-    checkAndAddButtons();
-  }
-}).observe(document, { subtree: true, childList: true });
-
-const observer = new MutationObserver((mutations) => {
-  if (window.location.pathname === '/watch' && !document.querySelector('.watch-view-mp3-button')) {
-    checkAndAddButtons();
-  } else {
-    addButtonsToAllThumbnails();
-  }
+// Observer for content changes
+const contentObserver = new MutationObserver((mutations) => {
+  mutations.forEach(mutation => {
+    if (mutation.addedNodes.length) {
+      mutation.addedNodes.forEach(node => {
+        if (node.nodeType === 1) {
+          if (node.tagName?.toLowerCase() === 'ytd-thumbnail') {
+            addButtonToThumbnail(node);
+          } else {
+            const thumbnails = node.querySelectorAll('ytd-thumbnail:not([hidden])');
+            thumbnails.forEach(addButtonToThumbnail);
+          }
+        }
+      });
+    }
+  });
 });
 
-observer.observe(document.body, {
+contentObserver.observe(document.body, {
   childList: true,
   subtree: true
 });
+
+// Handle navigation changes
+let lastUrl = location.href;
+const navigationObserver = new MutationObserver(() => {
+  const url = location.href;
+  if (url !== lastUrl) {
+    lastUrl = url;
+    setTimeout(() => {
+      checkAndAddButtons();
+    }, 1000);
+  }
+});
+
+navigationObserver.observe(document, { subtree: true, childList: true });
