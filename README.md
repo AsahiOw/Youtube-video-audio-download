@@ -43,6 +43,7 @@ A personal project inspired by a friend who wants to download music from YouTube
 
 ## Known Issues
 - The Button in the watch view messes up with some videos' YouTube overflow components.
+- After some time, you will have to manually click the "If you are a robot button"
 
 ## Current Resolve
 - Press the "I" button 2 times or resize the window when you need additional options, other than that it should not affect your experience in any way.
