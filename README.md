@@ -43,7 +43,6 @@ A personal project inspired by a friend who wants to download music from YouTube
 
 ## Known Issues
 - The Button in the watch view messes up with some videos' YouTube overflow components.
-- There is a chance that the mp3 downloaded is a different video.
 
 ## Current Resolve
 - Press the "I" button 2 times or resize the window when you need additional options, other than that it should not affect your experience in any way.
