@@ -1,6 +1,6 @@
 # Personal Project: Youtube Audio Download Chrome Extension
 
-A personal project inspired by a friend who wants to download music from YouTube without the hassle of copying directories and pasting to other websites. This chrome extension will do just that.
+A personal project inspired by a friend who wants to download music from YouTube without the hassle of copying directories and pasting to other websites. This Chrome extension will do just that.
 
 ## Features
 - Simple, plug-and-play
@@ -11,7 +11,7 @@ A personal project inspired by a friend who wants to download music from YouTube
 
 ## Requirements
 - Chrome Browser
-- Other Chromium-based Browsers should work as well (not tested yet)
+- Other Chromium-based Browsers should work as well
 
 ## Setup
 1. Clone the repository or use the download link in the [Link](#link) section
@@ -37,7 +37,7 @@ A personal project inspired by a friend who wants to download music from YouTube
 - Added Button to `youtube.com/watch`
 
 ## Known Issues
-- The Button in the watch view does mess up with the YouTube overflow components, this can be re-updated when the user interact with the size of the website like resizing the browser.
+- The Button in the watch view does mess up with the YouTube overflow components, this can be re-updated when the user interacts with the size of the website like resizing the browser.
 
 ## Acknowledgments
 Thanks to ezmp3.cc and its creator fiverrpeao on Reddit for this amazing ad-free website. Please support them on [Ko-fi](https://ko-fi.com/ezmp3)
