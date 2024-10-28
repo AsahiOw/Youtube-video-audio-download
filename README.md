@@ -40,7 +40,7 @@ A personal project inspired by a friend who wants to download music from YouTube
 - The Button in the watch view messes up with some videos' YouTube overflow components.
 
 ## Current Resolve
-- Crt + Shift + i + i (or resize the browser)
+- Press the "I" button 2 times or resize the window when you need additional options, other than that it should not affect your experience in any way.
 
 ## Acknowledgments
 Thanks to ezmp3.cc and its creator fiverrpeao on Reddit for this amazing ad-free website. Please support them on [Ko-fi](https://ko-fi.com/ezmp3)
